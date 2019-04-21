@@ -1,0 +1,27 @@
+[
+  {
+      
+    "url": "https://www.youtube.com/watch?v=gn9uUjwBaEk",
+    "tip": "Test notif for droidcon india",
+    
+    
+  },
+    {
+      
+      "url": "https:\/\/www.youtube.com\/watch?v=sjpbu4y6F_M&list=PLOU2XLYxmsILvfJcIASBDbgfxloFz_XsU&index=5",
+      "tip": "If you don't know how to code, you can use templates to build an App! Learn more about it in our Build an App for the Google Assistant with Templates and No Code video.",
+      "created_at": "2017-12-25T08:00:00.000Z"
+    },
+    {
+      
+      "url": "https:\/\/developers.google.com\/actions\/assistant\/best-practices",
+      "created_at": "2017-12-21T08:00:00.000Z",
+      "tip": "Remember that your users may need your app to repeat itself at any time, so keep track of your last prompt and be prepared to repeat it."
+    },
+    {
+      
+      "url": "https:\/\/github.com\/actions-on-google\/actions-on-google-nodejs",
+      "tip": "The Actions On Google client library for Dialogflow and Actions SDK is a nodejs module that helps you build your fulfillment whether you're using Dialogflow or the Actions SDK. ",
+      "created_at": "2017-12-19T08:00:00.000Z"
+    }
+]

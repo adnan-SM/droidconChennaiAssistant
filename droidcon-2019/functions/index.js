@@ -77,8 +77,13 @@ app.intent(`tell_latest_tip`,(conv)=>{
 
 app.intent(`setup_push`,(conv)=>{
     // conv.user.storage={}
-conv.ask(new UpdatePermission({intent: NOTIF_INTENT}))
-    
+    if(conv.user.storage[PUSH_NOTIFICATION_ASKED] == true)
+    {
+        conv.ask("You are already subscribed to notifications");
+    }
+    else{
+        conv.ask(new UpdatePermission({intent: NOTIF_INTENT}))
+    }
 });
 
 

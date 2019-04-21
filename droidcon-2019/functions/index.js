@@ -43,7 +43,7 @@ const PUSH_NOTIFICATION_ASKED = 'push_notification_asked';
 
 app.intent(`tell_latest_tip`,(conv)=>{
     return db.collection(FirestoreNames.TIPS)
-    .orderBy(FirestoreNames.CREATED_AT,'inc')
+    .orderBy(FirestoreNames.CREATED_AT,'desc')
     .limit(1)
     .get()
     .then((querySnapshot)=>{

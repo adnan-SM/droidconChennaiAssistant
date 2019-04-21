@@ -1,3 +1,4 @@
+'use strict';
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const {dialogflow,UpdatePermission,
@@ -8,7 +9,7 @@ const welcome_mod=require('./welcome');
 const cfs_mod=require('./cfs');
 const details_mod=require('./details')
 
-PATH_TO_KEY='./secret.json'
+const PATH_TO_KEY='./secret.json'
 
 admin.initializeApp();
 const db=admin.firestore();

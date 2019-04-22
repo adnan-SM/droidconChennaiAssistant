@@ -77,7 +77,7 @@ app.intent(`tell_latest_tip`,(conv)=>{
 
 app.intent(`setup_push`,(conv)=>{
     // conv.user.storage={}
-    if(conv.user.storage[PUSH_NOTIFICATION_ASKED] == true)
+    if(conv.user.storage[PUSH_NOTIFICATION_ASKED] === true)
     {
         conv.ask("You are already subscribed to notifications");
     }
@@ -190,7 +190,7 @@ exports.restoreTipsDB= functions.https.onRequest((request,response)=>{
     }).catch((error)=>{
         throw new Error(`FireStore query error : ${error}`);
     })
-    addTips();
+    //addTips();
 
     //add tips
     function addTips(){
@@ -203,7 +203,9 @@ exports.restoreTipsDB= functions.https.onRequest((request,response)=>{
         });
         batch.commit()
             .then(()=>{
-                request.setEncoding(`Tips DB succesfully restored`);
+                //request.setEncoding(`Tips DB succesfully restored`);
+                response.send("Tips DB successfully updated . . .");
+                console.log("Updated db");
                 return ;
             })
             .catch((error)=>{

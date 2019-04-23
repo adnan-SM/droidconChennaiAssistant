@@ -63,11 +63,11 @@ app.intent(`tell_latest_tip`,(conv)=>{
                 }),
             }));
 
-            if(!conv.user.storage[PUSH_NOTIFICATION_ASKED]){
-                conv.ask(new Suggestions('Alert me for DroidCon'));
-                conv.user.storage[PUSH_NOTIFICATION_ASKED]=true;
+            // if(!conv.user.storage[PUSH_NOTIFICATION_ASKED]){        //can never be false if reached till this intent.
+            //     conv.ask(new Suggestions('Alert me for DroidCon'));
+            //     conv.user.storage[PUSH_NOTIFICATION_ASKED]=true;
               
-            }
+            // }
             return console.log(`DB is working`);
     })
    // conv.ask(`Ok I'll notify you`);
@@ -88,14 +88,25 @@ app.intent(`setup_push`,(conv)=>{
 
 
 app.intent('finish_push_setup',(conv)=>{
+    var userID;
     if(conv.arguments.get('PERMISSION')){
-        const userID=conv.arguments.get('UPDATES_USER_ID');
+        if(conv.user.storage.userId)
+        {
+            userID = conv.user.storage.userId;
+        }
+        else
+        {
+            userID=conv.arguments.get('UPDATES_USER_ID');
+            conv.user.storage.userId = userID;
+        }
+        
         return db.collection(FirestoreNames.USERS)
         .add({
             [FirestoreNames.INTENT] : NOTIF_INTENT,
             [FirestoreNames.USER_ID] : userID,
         }).then((docRef)=>{
             conv.ask(`Ok, I'll start alerting you about about DroidCon`);
+            conv.user.storage[PUSH_NOTIFICATION_ASKED]=true; // change this value to true manually in your device
             conv.ask(new Suggestions('Do something else'));
             return console.log(`Alerting is done`);
         })
@@ -104,6 +115,32 @@ app.intent('finish_push_setup',(conv)=>{
         return conv.ask(new Suggestions('Do something else'));
         
 
+    }
+})
+app.intent('unsubscribe',(conv)=>{
+    if(conv.user.storage[PUSH_NOTIFICATION_ASKED] === false)
+    {
+        conv.ask("You are not yet subscribed to notifications ");
+    }
+    else
+    {
+        conv.user.storage[PUSH_NOTIFICATION_ASKED] = false;
+        const userID=conv.user.storage.userId;
+        console.log("USERID CHeck below..");
+        console.log(userID);
+        conv.ask(userID);
+        db.collection("users").where('userId','==',`${userID}`).get()
+        .then((querySnapshot)=>{
+            if(querySnapshot.size>0){
+                querySnapshot.forEach((doc)=>{
+                    doc.ref.delete()
+                });
+            }
+            return;
+        }).catch((error)=>{
+            throw new Error(`FireStore query error : ${error}`);
+        });
+        conv.ask("Unsubscribed successfully . . .")
     }
 })
 
@@ -168,7 +205,7 @@ exports.createTip=functions.firestore
                       throw new Error (`Firestore query error: ${error}`);
                   });
               });
-    return console.log(`Everything is done`);
+    return console.log(`Everything is done ... `);
 });
 
 //use this function to restore the content of tips database.
@@ -190,7 +227,7 @@ exports.restoreTipsDB= functions.https.onRequest((request,response)=>{
     }).catch((error)=>{
         throw new Error(`FireStore query error : ${error}`);
     })
-    //addTips();
+    addTips();
 
     //add tips
     function addTips(){

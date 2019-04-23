@@ -126,9 +126,9 @@ app.intent('unsubscribe',(conv)=>{
     {
         conv.user.storage[PUSH_NOTIFICATION_ASKED] = false;
         const userID=conv.user.storage.userId;
-        console.log("USERID CHeck below..");
-        console.log(userID);
-        conv.ask(userID);
+        //console.log("USERID CHeck below..");
+        //console.log(userID);
+        //conv.ask(userID);
         db.collection("users").where('userId','==',`${userID}`).get()
         .then((querySnapshot)=>{
             if(querySnapshot.size>0){

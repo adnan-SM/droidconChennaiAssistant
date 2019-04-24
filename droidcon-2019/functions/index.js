@@ -7,7 +7,8 @@ const {dialogflow,UpdatePermission,
 const app = dialogflow({debug:true})
 const welcome_mod=require('./welcome');
 const cfs_mod=require('./cfs');
-const details_mod=require('./details')
+const details_mod=require('./details');
+const reg = require('./register');
 
 const PATH_TO_KEY='./secret.json'
 
@@ -140,9 +141,15 @@ app.intent('unsubscribe',(conv)=>{
         }).catch((error)=>{
             throw new Error(`FireStore query error : ${error}`);
         });
-        conv.ask("Unsubscribed successfully . . .")
+        conv.ask("Okay you won't receive notifications any more ");
     }
-})
+});
+app.intent('venue',(conv)=>{
+    details_mod.venue(conv);
+});
+app.intent('register',(conv)=>{
+    reg.register(conv);
+});
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
 //authorizing user

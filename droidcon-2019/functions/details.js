@@ -21,9 +21,24 @@ module.exports={
             }),
             
         })),
-        conv.ask(" What you would like to know now?");
-        conv.ask(new Suggestions(['Call For Speakers'],['Register Now'],['Organizers'],['About Venue']));
+        conv.ask(" What would you like to know now?");
+        conv.ask(new Suggestions(['Call For Speakers'],['Register Now'],['Give me updates']));
 
 
-    }
+    },
+    venue : function(conv) {
+        conv.ask('This year DroidCon would be held at Chennai. Exact location details would be available shortly. You can subscribe to notificaitons for receiving updates.');
+    //     conv.ask(new BasicCard({
+    //     text: `The University of Engineering & Management (UEM), Kolkata is a private university located in Action Area - III of New Town, Kolkata. It provides engineering, technological & management education`,
+    //     image: new Image({
+    //         url: `https://thumb.ibb.co/gh4gB9/cropped-uem.png`,
+    //         alt:  `UEM Kolkata`,
+    //     }),
+    //     buttons: new Button({
+    //         title: 'Find UEM on Google Maps',
+    //         url: `https://www.google.com/maps/search/?api=1&query=uem+kolkata`,
+    //     }),
+    // }));
+    conv.ask(new Suggestions(['Details'],['Notify me'],['Exit']));
+    },
 }
